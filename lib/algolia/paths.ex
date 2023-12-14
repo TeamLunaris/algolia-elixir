@@ -15,7 +15,9 @@ defmodule Algolia.Paths do
 
   def index(index), do: indexes() <> "/" <> URI.encode(index)
 
-  def batch(index), do: index(index) <> "/batch"
+  def recommendation(), do: index("*") <> "/recommendations"
+
+  def batch(index \\ "*"), do: index(index) <> "/batch"
 
   def operation(index), do: index(index) <> "/operation"
 

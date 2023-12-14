@@ -87,6 +87,48 @@ defmodule Algolia do
   end
 
   @doc """
+  Returns values from the recommend API
+
+  See: https://www.algolia.com/doc/rest-api/recommend/?utm_medium=page_link&utm_source=dashboard#get-recommendations
+
+  ## Examples
+
+      iex> Algolia.recommendations([
+      ...>   %{indexName: "index", model: "trending-items", threshold: 70, maxRecommendations: 10, queryParameters: %{facetFilters: ["stock:In Stock", "category:Books"]}},
+      ...> ])
+      {:ok, %{
+        "results" => [
+          %{
+            "exhaustive" => %{"nbHits" => true, "typo" => true},
+            "exhaustiveNbHits" => true,
+            "exhaustiveTypo" => true,
+            "hits" => [
+              ...
+            ],
+            "hitsPerPage" => 25,
+            "nbHits" => 25,
+            "nbPages" => 1,
+            "page" => 0,
+            "processingTimeMS" => 2,
+            "processingTimingsMS" => %{
+              "_request" => %{"roundTrip" => 36},
+              "getIdx" => %{"load" => %{"total" => 1}, "total" => 1},
+              "total" => 2
+            },
+            "serverTimeMS" => 5
+          }
+        ]
+      }}
+  """
+  def recommendations(requests, opts \\ []) do
+    {request_options, opts} = Keyword.pop(opts, :request_options)
+    path = Paths.recommendation()
+    body = Jason.encode!(%{requests: requests})
+
+    send_request(:read, %{method: :post, path: path, body: body, options: request_options})
+  end
+
+  @doc """
   Search for facet values
 
   Enables you to search through the values of a facet attribute, selecting
