@@ -102,7 +102,7 @@ defmodule Algolia do
       end
 
 
-    send_request(:read, %{method: :post, path: path, body: body})
+    send_request(:read, %{method: :post, path: path, body: Jason.encode!(body)})
   end
 
   @doc """
