@@ -96,7 +96,7 @@ defmodule Algolia do
 
     body =
       unless Enum.empty?(params) do
-        %{params: params}
+        %{params: URI.encode_query(params)}
       else
         params
       end
