@@ -87,6 +87,9 @@ defmodule Algolia do
   end
 
   @doc """
+  Retrieve all objects from an index.
+
+  For all the possible params see https://www.algolia.com/doc/rest-api/search/#browse-index-post
   """
   def browse(index, params \\ %{}) do
     path = Paths.browse(index)
