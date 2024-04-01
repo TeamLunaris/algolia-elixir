@@ -87,6 +87,25 @@ defmodule Algolia do
   end
 
   @doc """
+  Retrieve all objects from an index.
+
+  For all the possible params see https://www.algolia.com/doc/rest-api/search/#browse-index-post
+  """
+  def browse(index, params \\ %{}) do
+    path = Paths.browse(index)
+
+    body =
+      unless Enum.empty?(params) do
+        %{params: URI.encode_query(params)}
+      else
+        params
+      end
+
+
+    send_request(:read, %{method: :post, path: path, body: Jason.encode!(body)})
+  end
+
+  @doc """
   Returns values from the recommend API
 
   See: https://www.algolia.com/doc/rest-api/recommend/?utm_medium=page_link&utm_source=dashboard#get-recommendations
